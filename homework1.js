@@ -15,7 +15,11 @@ EventEmitor.prototype.on = function(eventName, handler) {
 }
 
 EventEmitor.prototype.emit = function(eventName, ...params) {
-	this.eventTable[eventName].forEach( elem =>  elem.apply(null, params) );
+	const event = this.eventTable[eventName];
+	
+	if (event) {
+		this.eventTable[eventName].forEach( elem =>  elem.apply(null, params) );
+	}	
 }
 
 const a = new EventEmitor();
