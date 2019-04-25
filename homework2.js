@@ -61,7 +61,7 @@ class Queue extends EventEmitor {
 class App extends EventEmitor {
 	constructor() {
 		super();
-		this.atm = new Atm(2000, 6000);
+		this.atm = new Atm(4000, 6000);
 		this.queue = new Queue;
 	}
 	addPerson() {
@@ -96,25 +96,36 @@ class App extends EventEmitor {
 				}, this.atm.rand()));
 				promise.then(() => setTimeout(() => this.start(), 1000));
 		}
-	}); 
+	});
 
-// 		if (this.atm.status == 'free' && this.queue.countPeople >= 0 ) {
-// 				this.atm.busy();
-// 				this.queueReduction();
-// 				let promise = new Promise((resolve) => setTimeout(() => {
-// 					this.atm.free();
-// 					return resolve();
-// 				}, this.atm.rand()));
-// 				promise.then(() => setTimeout(() => this.start(), 1000));
-// 		}
-// }
-// }
+
+
+	// setInterval( () => {
+	// 	if (this.atm.status == 'free') {
+	// 		this.atm.busy();
+	// 	}
+	// }, 1000);
+
+
+	// this.atm.on('status', () => {
+	// 	if (this.atm.status == 'busy' && this.queue.countPeople >= 0 ) {
+	// 		this.queueReduction();
+	// 	}		
+	// });
+
+	// setInterval( () => {
+	// 	if (this.atm.status == 'busy') {
+	// 		this.atm.free();
+	// 	}
+	// }, this.atm.rand() );
+
+
 	}
 }
 
 
 let app = new App;
-app.generator(1, 2);
+app.generator(3, 5);
 app.start();
 
 
