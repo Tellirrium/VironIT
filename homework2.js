@@ -22,19 +22,26 @@ class EventEmitor {
 
 // Create a new class - Atm
 class Atm extends EventEmitor {
-	constructor() {
+	constructor(x, y) {
 		super();
 		this.status = 'free';
 		this.countServedPeople = 0;
+		this.x = x;
+		this.y = y;
 	}
 	busy() {
 		this.countServedPeople++;
 		this.status = 'busy';
-		this.emit(this.status);
+		this.emit('status', this.status);
+		console.log('atm is busy');
 	}
 	free() {
 		this.status = 'free';
-		this.emit(this.status);
+		this.emit('status', this.status);
+		console.log('atm is free');
+	}
+	rand() {
+		return (Math.floor(Math.random() * (this.y - this.x + 1) + this.x));
 	}
 }
 
@@ -54,7 +61,7 @@ class Queue extends EventEmitor {
 class App extends EventEmitor {
 	constructor() {
 		super();
-		this.atm = new Atm;
+		this.atm = new Atm(1000, 3000);
 		this.queue = new Queue;
 	}
 	addPerson() {
@@ -63,7 +70,7 @@ class App extends EventEmitor {
 		console.log(`counter ${this.queue.countPeople}`);
 	}
 	generator(n, m) {
-		setTimeout( () => {
+		setTimeout(() => {
 			this.addPerson();
 			this.generator(n, m);
 		}, this.rand(n, m));
@@ -72,30 +79,49 @@ class App extends EventEmitor {
 		return (Math.floor(Math.random() * (m - n + 1) + n)) * 1000;
 	}
 	queueReduction() {
+		if (this.queue.countPeople != 0) {
 		this.queue.countPeople--;
+		}
 		this.emit('queueCount', this.queue.countPeople);
+		console.log(`counter ${this.queue.countPeople}`);
 	}
-	start() {
-		this.atm.on('status', () => {
-			this.atm.working();
-			this.queueReduction();
-		});
-		
-	}
+	start = () => {
+		// this.queue.on('queueCount', () => {
+		// 	if (this.queue.countPeople != 0) {
+		// 	this.atm.on('status', () => {
+		// 		if (this.queue.countPeople != 0 && this.atm.status == 'free') {
+		// 			this.atm.busy();
+		// 			this.queueReduction();
+		// 			let promise = new Promise((resolve) => setTimeout(() => {
+		// 				this.atm.free();
+		// 				return resolve();
+		// 			}, this.atm.rand()));
+		// 			promise.then(() => setTimeout(() => start(), 1000));
+		// 			// setTimeout( () => this.atm.free() , this.atm.rand() );
+		// 			// setTimeout( () => start(), 1000);
+		// 		}
+		// 	});
+		// }
+		// });
+		this.queue.on('queueCount', () => {
+		if (this.atm.status == 'free' && this.queue.countPeople >= 0 ) {
+				this.atm.busy();
+				this.queueReduction();
+				let promise = new Promise((resolve) => setTimeout(() => {
+					this.atm.free();
+					return resolve();
+				}, this.atm.rand()));
+				promise.then(() => setTimeout(() => this.start(), 1000));
+		}
+	}); 
+}
 }
 
 
 
-
-
-
-
-
-let Atm1 = new Atm;
-let Atm2 = new Atm;
-let queue = new Queue;
-// meneger.reduction();
-queue.generator(1, 4);
+let app = new App;
+app.generator(1, 3);
+app.start();
 
 
 
