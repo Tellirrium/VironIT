@@ -61,7 +61,7 @@ class Queue extends EventEmitor {
 class App extends EventEmitor {
 	constructor() {
 		super();
-		this.atm = new Atm(1000, 3000);
+		this.atm = new Atm(2000, 6000);
 		this.queue = new Queue;
 	}
 	addPerson() {
@@ -83,28 +83,11 @@ class App extends EventEmitor {
 		this.queue.countPeople--;
 		}
 		this.emit('queueCount', this.queue.countPeople);
-		console.log(`counter ${this.queue.countPeople}`);
+		// console.log(`counter ${this.queue.countPeople}`);
 	}
 	start = () => {
-		// this.queue.on('queueCount', () => {
-		// 	if (this.queue.countPeople != 0) {
-		// 	this.atm.on('status', () => {
-		// 		if (this.queue.countPeople != 0 && this.atm.status == 'free') {
-		// 			this.atm.busy();
-		// 			this.queueReduction();
-		// 			let promise = new Promise((resolve) => setTimeout(() => {
-		// 				this.atm.free();
-		// 				return resolve();
-		// 			}, this.atm.rand()));
-		// 			promise.then(() => setTimeout(() => start(), 1000));
-		// 			// setTimeout( () => this.atm.free() , this.atm.rand() );
-		// 			// setTimeout( () => start(), 1000);
-		// 		}
-		// 	});
-		// }
-		// });
-		this.queue.on('queueCount', () => {
-		if (this.atm.status == 'free' && this.queue.countPeople >= 0 ) {
+		this.on('queueCount', () => {
+		while (this.atm.status == 'free' && this.queue.countPeople >= 0 ) {
 				this.atm.busy();
 				this.queueReduction();
 				let promise = new Promise((resolve) => setTimeout(() => {
@@ -114,13 +97,24 @@ class App extends EventEmitor {
 				promise.then(() => setTimeout(() => this.start(), 1000));
 		}
 	}); 
-}
-}
 
+// 		if (this.atm.status == 'free' && this.queue.countPeople >= 0 ) {
+// 				this.atm.busy();
+// 				this.queueReduction();
+// 				let promise = new Promise((resolve) => setTimeout(() => {
+// 					this.atm.free();
+// 					return resolve();
+// 				}, this.atm.rand()));
+// 				promise.then(() => setTimeout(() => this.start(), 1000));
+// 		}
+// }
+// }
+	}
+}
 
 
 let app = new App;
-app.generator(1, 3);
+app.generator(1, 2);
 app.start();
 
 
