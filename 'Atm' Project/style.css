@@ -1,0 +1,13 @@
+.content {
+    width: 980px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+}
+.content > div {
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+    border: 3px solid green;
+    border-radius: 5px;
+}

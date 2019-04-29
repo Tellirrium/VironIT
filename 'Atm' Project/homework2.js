@@ -105,6 +105,8 @@ class App extends EventEmitor {
 	
 	addAtm() {
 		const atm = new Atm(4000, 8000);
+		
+		atm.emit('display');
 
 		atm.on('free', () => {
 		  this.infOfWork();
@@ -142,12 +144,36 @@ class App extends EventEmitor {
 }
 
 
+class AtmUI extends EventEmitor {
+	constructor() {
+		super();
+		this.app = new App;
+	}
+	view() {
+		this.app.on('display', () => {
+			let mainDiv = document.getElementsByClassName('content')[0];
+			let divOfAtm = document.createElement('div');
+			
+			mainDiv.appendChild(divOfAtm);
+
+			let realDivOfAtm = mainDiv.getElementsByTagName('div')[0];
+
+			realDivOfAtm.setAttribute('id', `atm${i + 1}`);
+		});
+	}
+		
+}
+
+
 let app = new App;
 app.addAtm();
 app.addAtm();
 app.generator(1, 2);
 app.start();
 app.display();
+let atmUI = new AtmUI;
+atmUI.view(); 
+
 
 
 
