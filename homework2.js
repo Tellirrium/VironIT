@@ -23,10 +23,10 @@ class Logger {
 		console.log(`counter ${count}`);
 	}
 	atmFree() {
-		console.log('Atm is free');
+		console.log(`Atm is free`);
 	}
 	atmBusy() {
-		console.log('Atm is busy');
+		console.log(`Atm is busy`);
 	}
 }
 
@@ -45,7 +45,6 @@ class Atm extends EventEmitor {
 		this.countServedPeople++;
 		this.status = 'busy';
 		this.emit('busy', this.status);
-		// setTimeout( () => this.free(), this.rand() );
 	}
 	free() {
 		this.status = 'free';
@@ -91,8 +90,8 @@ class App extends EventEmitor {
 	}
 	display() {
 		this.queue.on('queueCount', () => this.logger.viewQueue(this.queue.getCount()));
-		this.atmTable[0].on('busy', () => this.logger.atmBusy());
-		this.atmTable[0].on('free', () => this.logger.atmFree());
+		this.atmTable.forEach( elem => elem.on('busy', () => this.logger.atmBusy()) );
+		this.atmTable.forEach( elem => elem.on('free', () => this.logger.atmFree()) );
 	}
 	generator(n, m) {
 		setTimeout(() => {
@@ -103,13 +102,10 @@ class App extends EventEmitor {
 	rand(n, m) {
 		return (Math.floor(Math.random() * (m - n + 1) + n)) * 1000;
 	}
-
-	getAtmCount() {
-		return this.atmTable[0].countServedPeople;
-	}
 	
 	addAtm() {
-		const atm = new Atm(2000, 6000);
+		const atm = new Atm(4000, 8000);
+
 		atm.on('free', () => {
 		  this.infOfWork();
 		});
@@ -120,17 +116,21 @@ class App extends EventEmitor {
 			}
 		  }, atm.rand() );
 		});
+
 		this.atmTable.push(atm);
 	  }
 
 	infOfWork = () => {
-		setTimeout(() => {
-          if (this.queue.getCount() > 0 && this.atmTable[0].getStatus() === 'free') {
-            this.atmTable[0].busy();
-            this.queue.removePerson();
-          }
-		}, 1000);
-		
+		let freeAtm = this.atmTable.find( (atm) => atm.getStatus() == 'free');
+
+			if (freeAtm && this.queue.getCount() > 0) {
+				setTimeout(() => {
+            		freeAtm.busy();
+            		this.queue.removePerson();
+				}, 1000);
+			} else if (!freeAtm && this.queue.getCount() > 0) {
+				console.log('All atms are busy');
+			}
 	}
 
 	start = () => {
@@ -144,7 +144,8 @@ class App extends EventEmitor {
 
 let app = new App;
 app.addAtm();
-app.generator(3, 5);
+app.addAtm();
+app.generator(1, 2);
 app.start();
 app.display();
 
