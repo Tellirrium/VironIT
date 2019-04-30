@@ -1,13 +1,30 @@
-.content {
+#content {
     width: 980px;
     margin: 0 auto;
     display: flex;
     justify-content: space-around;
 }
-.content > div {
-    width: 200px;
-    height: 200px;
+
+#content > div {
+    width: 150px;
+    height: 150px;
     display: inline-block;
-    border: 3px solid green;
-    border-radius: 5px;
+    border: 25px solid green;
+    border-radius: 10px;
+}
+
+#divOfQueue {
+    width: 980px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+#divOfQueue > div {
+    margin-top: 140px;
+    width: 150px;
+    height: 300px;
+    display: inline-block;
+    border: 5px solid green;
+    border-radius: 10px;
 }

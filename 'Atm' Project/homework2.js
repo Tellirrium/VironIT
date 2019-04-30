@@ -87,6 +87,11 @@ class App extends EventEmitor {
 		this.queue = new Queue;
 		this.atmTable = [];
 		this.logger = new Logger;
+		this.counter = -1;
+
+		const queueUI = new QueueUI;
+		queueUI.view();
+		queueUI.emit('display');
 	}
 	display() {
 		this.queue.on('queueCount', () => this.logger.viewQueue(this.queue.getCount()));
@@ -104,9 +109,13 @@ class App extends EventEmitor {
 	}
 	
 	addAtm() {
+		this.counter++;
+
 		const atm = new Atm(4000, 8000);
-		
-		atm.emit('display');
+		const atmUI = new AtmUI;
+
+		atmUI.view();
+		atmUI.emit('display', this.counter);
 
 		atm.on('free', () => {
 		  this.infOfWork();
@@ -147,21 +156,38 @@ class App extends EventEmitor {
 class AtmUI extends EventEmitor {
 	constructor() {
 		super();
-		this.app = new App;
 	}
 	view() {
-		this.app.on('display', () => {
-			let mainDiv = document.getElementsByClassName('content')[0];
+		this.on('display', (counter) => {
+			let mainDiv = document.getElementById('content');
 			let divOfAtm = document.createElement('div');
 			
 			mainDiv.appendChild(divOfAtm);
 
-			let realDivOfAtm = mainDiv.getElementsByTagName('div')[0];
+			let realDivOfAtm = mainDiv.getElementsByTagName('div')[counter];
 
-			realDivOfAtm.setAttribute('id', `atm${i + 1}`);
+			realDivOfAtm.setAttribute('id', `atm${counter + 1}`);
+		});
+	}		
+}
+
+
+class QueueUI extends EventEmitor {
+	constructor() {
+		super();
+	}
+	view() {
+		this.on('display', () => {
+			const mainDiv = document.getElementById('divOfQueue');
+			const divOfQueue = document.createElement('div');
+
+			mainDiv.appendChild(divOfQueue);
+
+			const realDivOfQueue = mainDiv.getElementsByTagName('div')[0];
+
+			realDivOfQueue.setAttribute('id', 'queue');
 		});
 	}
-		
 }
 
 
@@ -171,8 +197,7 @@ app.addAtm();
 app.generator(1, 2);
 app.start();
 app.display();
-let atmUI = new AtmUI;
-atmUI.view(); 
+ 
 
 
 
