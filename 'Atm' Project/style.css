@@ -3,14 +3,25 @@
     margin: 0 auto;
     display: flex;
     justify-content: space-around;
+    flex-wrap: wrap;
 }
 
-#content > div {
-    width: 150px;
-    height: 150px;
+.free {
+    width: 100px;
+    height: 100px;
     display: inline-block;
-    border: 25px solid green;
+    border: 6px solid #7A33FF;
     border-radius: 10px;
+    background-color: #33FF68;
+}
+
+.busy {
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+    border: 6px solid #7A33FF;
+    border-radius: 10px;
+    background-color: red;
 }
 
 #divOfQueue {
@@ -23,8 +34,19 @@
 #divOfQueue > div {
     margin-top: 140px;
     width: 150px;
-    height: 300px;
-    display: inline-block;
-    border: 5px solid green;
+    height: 200px;
+    border: 6px solid #7A33FF;
     border-radius: 10px;
+}
+
+#queue {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#queueCount {
+    color: #7A33FF;
+    font-size: 20px;
+    font-family: 'Gugi', cursive;
 }
