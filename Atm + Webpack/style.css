@@ -29,6 +29,7 @@
     margin: 0 auto;
     display: flex;
     justify-content: center;
+    margin-bottom: 140px;
 }
 
 #divOfQueue > div {
@@ -49,4 +50,17 @@
     color: #7A33FF;
     font-size: 20px;
     font-family: 'Gugi', cursive;
+}
+
+.addAtm {
+    cursor: pointer;
+    margin-top: 0px;
+    width: 220px;
+    margin: 0 auto;
+    border: 3px solid #DA336D;
+    border-radius: 10px;
+    color: #DA336D;
+    font-size: 20px;
+    font-family: 'Fjalla One', sans-serif;
+    text-align: center;
 }

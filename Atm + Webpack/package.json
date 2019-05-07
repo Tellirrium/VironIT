@@ -1,0 +1,19 @@
+{
+  "name": "webpackfirst",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+   "dev": "webpack --mode development",
+   "build": "webpack --mode production"
+  },
+  "keywords": [
+    "js"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.1"
+  }
+}
