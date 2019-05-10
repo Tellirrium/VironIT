@@ -64,6 +64,12 @@ export default class App extends EventEmitor {
 		this.atmUITable.push(atmUI);
 	  }
 
+	  removeAtm() {
+		  this.atmTable.pop();
+		  let main = document.getElementById('content');
+		  main.removeChild(main.lastChild);
+	  }
+
 	infOfWork () {
 		let freeAtm = this.freeAtmFunc();
 		console.log(this.waitAtmTable);
