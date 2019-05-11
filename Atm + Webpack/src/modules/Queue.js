@@ -1,22 +1,26 @@
 import EventEmitor from './EventEmitor';
+import Person from './Person';
 
 
 export default class Queue extends EventEmitor {
 	constructor() {
 		super();
-		this.countPeople = 0;
+		this.countPeople = [];
 	}
 	addPerson() {
-		this.countPeople++;
-		this.emit('queueCount', this.countPeople);
+		const person = new Person();
+		this.countPeople.push(person);
+		this.emit('queueCount', this.countPeople.length);
 	}
 	removePerson() {
-		if (this.countPeople != 0) {
-			this.countPeople--;
+		let remPer;
+		if (this.countPeople.length != 0) {
+			remPer = this.countPeople.shift();
 		}
-		this.emit('queueCount', this.countPeople);
+		this.emit('queueCount', this.countPeople.length);
+		return remPer;
 	}
 	getCount() {
-		return this.countPeople;
+		return this.countPeople.length;
 	}
 }

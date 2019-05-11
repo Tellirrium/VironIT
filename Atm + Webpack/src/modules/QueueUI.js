@@ -6,7 +6,7 @@ export default class QueueUI extends EventEmitor {
 		this.span = null;
 	}
 	view() {
-			const mainDiv = document.getElementById('divOfQueue');
+			const mainDiv = document.getElementById('divOfQueue') || document.createElement('div');
 			const divOfQueue = document.createElement('div');
 
 			mainDiv.appendChild(divOfQueue);
@@ -20,7 +20,7 @@ export default class QueueUI extends EventEmitor {
 			this.span = counter;
 			this.span.setAttribute('id', 'queueCount');
 	}
-	viewCount(counter) {
-		this.span.innerText = counter;
+	viewCount(length) {
+		this.span.innerText = length;
 	}
 }

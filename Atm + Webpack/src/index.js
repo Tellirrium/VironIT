@@ -5,7 +5,7 @@ let app = new App;
 app.addAtm();
 app.addAtm();
 app.start(app);
-app.display();
+// app.display();
 
 const add = document.getElementsByClassName('addAtm')[0];
 const remove = document.getElementsByClassName('removeAtm')[0];

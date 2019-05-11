@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack --mode development",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "test": "jest",
+    "test:c": "jest --coverage"
   },
   "keywords": [
     "js"
@@ -15,6 +17,7 @@
   "devDependencies": {
     "@babel/core": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
+    "jest": "^24.8.0",
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.1"
   },

@@ -8,7 +8,7 @@ export default class AtmUI extends EventEmitor {
 		atm.on('free', () => this.setFree());
 	}
 	view(counter) {
-			let mainDiv = document.getElementById('content');
+			let mainDiv = document.getElementById('content') || document.createElement('div');
 			let divOfAtm = document.createElement('div');
 			
 

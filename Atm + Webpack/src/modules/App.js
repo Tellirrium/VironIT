@@ -4,30 +4,30 @@ import Logger from './Logger'
 import Queue from './Queue'
 import QueueUI from './QueueUI'
 import EventEmitor from './EventEmitor'
+import Person from './Person'
 
 
 export default class App extends EventEmitor {
 	constructor() {
 		super();
 		this.queue = new Queue;
+		this.logger = new Logger;
+		this.queueUI = new QueueUI;
+		this.queueUI.view();
 		this.queue.on('queueCount', () => {
 			this.infOfWork();
 			// this.queueUI.span.innerText = this.queue.countPeople;
-			this.queueUI.viewCount(this.queue.countPeople);
+			this.queueUI.viewCount(this.queue.getCount());
+			this.logger.viewQueue(this.queue.getCount())
 		});
 		this.atmTable = [];
 		this.atmUITable = [];
 		this.waitAtmTable = [];
-		this.logger = new Logger;
 		this.counter = -1;
-		this.queueUI = new QueueUI;
-		this.queueUI.view();
 	}
-	display() {
-		this.queue.on('queueCount', () => this.logger.viewQueue(this.queue.getCount()));
-		// this.atmTable.forEach( elem => elem.on('busy', () => this.logger.atmBusy()) );
-		// this.atmTable.forEach( elem => elem.on('free', () => this.logger.atmFree()) );
-	}
+	// display() {
+	// 	this.queue.on('queueCount', (length) => this.logger.viewQueue(length));
+	// }
 	generator(n, m) {
 		setTimeout(() => {
 			this.queue.addPerson();
@@ -41,7 +41,7 @@ export default class App extends EventEmitor {
 	addAtm() {
 		this.counter++;
 
-		const atm = new Atm(6000, 8000);
+		const atm = new Atm();
 		const atmUI = new AtmUI(atm);
 		
 		atmUI.view(this.counter);
@@ -54,31 +54,40 @@ export default class App extends EventEmitor {
 			console.log(this.waitAtmTable);
 			this.infOfWork();
 		});
-		atm.on('busy', () => {
+		atm.on('busy', (time) => {
 		  setTimeout(() => {
 			  atm.free();
-		  }, atm.rand() );
+		  }, time );
 		});
 
 		this.atmTable.push(atm);
 		this.atmUITable.push(atmUI);
 	  }
 
-	  removeAtm() {
-		  this.atmTable.pop();
-		  let main = document.getElementById('content');
-		  main.removeChild(main.lastChild);
-	  }
+	removeAtm() {
+		this.atmTable.pop();
+		const main = document.getElementById('content');
+		try {  
+			main.removeChild(main.lastChild);
+		}
+		catch {
+
+		}
+	}
 
 	infOfWork () {
 		let freeAtm = this.freeAtmFunc();
+
 		console.log(this.waitAtmTable);
 			if (freeAtm && freeAtm.getStatus() === 'free' && this.queue.getCount() > 0) {
 				this.waitAtmTable.push(freeAtm);
-				this.queue.removePerson();
-				// freeAtm.status = 'wait';
+
+				const person = this.queue.removePerson();
+
+				console.log(person);
+
 				setTimeout(() => {
-					freeAtm.busy();
+					freeAtm.busy(person);
 				}, 1000);
 			} else if (!freeAtm && this.queue.getCount() > 0) {
 				console.log('All atms are busy');
@@ -86,12 +95,7 @@ export default class App extends EventEmitor {
 	}
 
 	start(app) {
-		// this.queue.on('queueCount', () => {
-		// 	this.infOfWork();
-		// 	// this.queueUI.span.innerText = this.queue.countPeople;
-		// 	this.queueUI.viewCount(this.queue.countPeople);
-		// });
-		app.generator(1, 4);
+		app.generator(1, 3);
 	}
 
 	freeAtmFunc() {
