@@ -8,7 +8,7 @@ export default class AtmUI extends EventEmitor {
 		atm.on('free', () => this.setFree());
 	}
 	view(counter) {
-			let mainDiv = document.getElementById('content') || document.createElement('div');
+			let mainDiv = document.getElementById('content');
 			let divOfAtm = document.createElement('div');
 			
 
@@ -16,12 +16,25 @@ export default class AtmUI extends EventEmitor {
 			divOfAtm.setAttribute('class', 'free');
 
 			this.realDivOfAtm = divOfAtm;
-			mainDiv.appendChild(this.realDivOfAtm);
+			if (mainDiv) {
+				mainDiv.appendChild(this.realDivOfAtm);
+			}
 	}
 	setFree() {
 		this.realDivOfAtm.setAttribute('class', 'free');
 	}
 	setBusy() {
 		this.realDivOfAtm.setAttribute('class', 'busy');
+	}
+	deleteAtm() {
+		let mainDiv = document.getElementById('content');
+		if (mainDiv) {
+			let elements = [].slice.call(mainDiv.children);
+		
+			if (elements.indexOf(this.realDivOfAtm) != -1 && this.realDivOfAtm.className == 'free') {
+				mainDiv.removeChild(this.realDivOfAtm);
+				this.clear();
+			}
+		}	
 	}		
 }

@@ -25,9 +25,7 @@ export default class App extends EventEmitor {
 		this.waitAtmTable = [];
 		this.counter = -1;
 	}
-	// display() {
-	// 	this.queue.on('queueCount', (length) => this.logger.viewQueue(length));
-	// }
+	
 	generator(n, m) {
 		setTimeout(() => {
 			this.queue.addPerson();
@@ -50,8 +48,21 @@ export default class App extends EventEmitor {
 		atm.on('busy', () => this.logger.atmBusy());
 
 		atm.on('free', () => {
+			let people = atm.countServedPeople;
+
+			setTimeout( () => {
+				if (people == atm.countServedPeople && atm.status == 'free' && atmUI.realDivOfAtm.className == 'free' && this.queue.getCount() == 0) {
+					this.atmTable = this.atmTable.filter( a => a != atm );
+					this.waitAtmTable = this.waitAtmTable.filter( a => a !== atm );
+					this.atmUITable = this.atmUITable.filter( a => a != atmUI );
+					atmUI.deleteAtm();
+				}
+			}, 6000);
+		});
+
+		atm.on('free', () => {
 			this.waitAtmTable = this.waitAtmTable.filter( a => a !== atm );
-			console.log(this.waitAtmTable);
+			// console.log(this.waitAtmTable);
 			this.infOfWork();
 		});
 		atm.on('busy', (time) => {
@@ -59,7 +70,8 @@ export default class App extends EventEmitor {
 			  atm.free();
 		  }, time );
 		});
-
+		
+		atm.free();
 		this.atmTable.push(atm);
 		this.atmUITable.push(atmUI);
 	  }
@@ -78,20 +90,23 @@ export default class App extends EventEmitor {
 	infOfWork () {
 		let freeAtm = this.freeAtmFunc();
 
-		console.log(this.waitAtmTable);
-			if (freeAtm && freeAtm.getStatus() === 'free' && this.queue.getCount() > 0) {
-				this.waitAtmTable.push(freeAtm);
+		console.log(this.atmTable);
+		console.log(this.atmTable.filter(atm => this.waitAtmTable.indexOf(atm) < 0));
+		
+		if (freeAtm && freeAtm.getStatus() === 'free' && this.queue.getCount() > 0) {
+			this.waitAtmTable.push(freeAtm);
 
-				const person = this.queue.removePerson();
+			const person = this.queue.removePerson();
 
-				console.log(person);
+			console.log(person);
 
-				setTimeout(() => {
-					freeAtm.busy(person);
-				}, 1000);
-			} else if (!freeAtm && this.queue.getCount() > 0) {
-				console.log('All atms are busy');
-			}
+			setTimeout(() => {
+				freeAtm.busy(person);
+			}, 1000);
+			
+		} else if (!freeAtm && this.queue.getCount() > 0) {
+			console.log('All atms are busy');
+		}
 	}
 
 	start(app) {

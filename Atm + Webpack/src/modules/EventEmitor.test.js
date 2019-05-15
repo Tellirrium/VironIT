@@ -28,4 +28,11 @@ describe('EventEmitor', () => {
         ee.emit('test');
         expect(handler).toHaveBeenCalledTimes(3);
     });
+
+    test('clear eventTable ', () => {
+        ee.on('tests', () => handler);
+        ee.clear();
+        // expect(ee.eventTable['tests'].length).toBe(0);
+        expect(handler).toHaveBeenCalledTimes(0);
+    });
 })
