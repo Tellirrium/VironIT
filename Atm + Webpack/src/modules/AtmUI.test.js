@@ -1,5 +1,5 @@
-import AtmUI from './AtmUI'
-import Atm from './Atm'
+import AtmUI from './AtmUI';
+import Atm from './Atm';
 
 
 describe('AtmUI', () => {
@@ -20,7 +20,7 @@ describe('AtmUI', () => {
         expect(/busy/.test(atmUI.realDivOfAtm.className)).toBe(true);
     });
 
-}); 
+});
 
 const atm = new Atm();
 const atmUI = new AtmUI(atm);

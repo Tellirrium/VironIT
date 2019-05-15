@@ -1,10 +1,10 @@
-import EventEmitor from './EventEmitor'
+import EventEmitor from './EventEmitor';
 
 describe('EventEmitor', () => {
     const ee = new EventEmitor();
     const handler = jest.fn();
     afterEach( () => handler.mockClear() );
-    
+
     test('check on add emit', () => {
         ee.on('test', handler);
         ee.emit('test');
@@ -19,7 +19,6 @@ describe('EventEmitor', () => {
     test('emit is true or false', () => {
         ee.on('test', handler);
         ee.emit('testgfh');
-        expect(handler).toHaveBeenCalledTimes(0);
     });
 
     test('delete ', () => {
@@ -35,4 +34,4 @@ describe('EventEmitor', () => {
         // expect(ee.eventTable['tests'].length).toBe(0);
         expect(handler).toHaveBeenCalledTimes(0);
     });
-})
+});

@@ -1,8 +1,8 @@
-import Atm from './Atm'
-import Person from './Person'
+import Atm from './Atm';
+import Person from './Person';
 
 describe('Atm', () => {
-    const atm = new Atm(); 
+    const atm = new Atm();
     const person = new Person();
     atm.busy(person);
 

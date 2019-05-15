@@ -5,16 +5,16 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js'
-  }, 
+  },
 
   watch: true,
   watchOptions: {
     aggregateTimeout: 100
-  }, 
+  },
 
   module: {
     rules: [
-      { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" }
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' }
     ]
   },
 

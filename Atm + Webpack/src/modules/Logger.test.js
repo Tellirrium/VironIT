@@ -1,8 +1,8 @@
-import Logger from './Logger'
+import Logger from './Logger';
 
 describe('Logger', () => {
     const logger = new Logger();
-    
+
     test('check message', () => {
        global.console = { log: jest.fn() };
        logger.viewQueue('15');

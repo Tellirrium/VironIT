@@ -1,4 +1,4 @@
-import QueueUI from './QueueUI'
+import QueueUI from './QueueUI';
 
 describe('QueueUI', () => {
     const queueUI = new QueueUI();

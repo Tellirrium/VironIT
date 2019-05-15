@@ -3,9 +3,9 @@ export default class Logger {
 		console.log(`counter ${count}`);
 	}
 	atmFree() {
-		console.log(`Atm is free`);
+		console.log('Atm is free');
 	}
 	atmBusy() {
-		console.log(`Atm is busy`);
+		console.log('Atm is busy');
 	}
 }

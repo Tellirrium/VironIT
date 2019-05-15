@@ -10,7 +10,6 @@ export default class AtmUI extends EventEmitor {
 	view(counter) {
 			let mainDiv = document.getElementById('content');
 			let divOfAtm = document.createElement('div');
-			
 
 			divOfAtm.setAttribute('id', `atm${counter + 1}`);
 			divOfAtm.setAttribute('class', 'free');
@@ -30,11 +29,11 @@ export default class AtmUI extends EventEmitor {
 		let mainDiv = document.getElementById('content');
 		if (mainDiv) {
 			let elements = [].slice.call(mainDiv.children);
-		
+
 			if (elements.indexOf(this.realDivOfAtm) != -1 && this.realDivOfAtm.className == 'free') {
 				mainDiv.removeChild(this.realDivOfAtm);
 				this.clear();
 			}
-		}	
-	}		
+		}
+	}
 }

@@ -53,7 +53,7 @@ export default class App extends EventEmitor {
 			setTimeout( () => {
 				if (people == atm.countServedPeople && atm.status == 'free' && atmUI.realDivOfAtm.className == 'free' && this.queue.getCount() == 0) {
 					this.atmTable = this.atmTable.filter( a => a != atm );
-					this.waitAtmTable = this.waitAtmTable.filter( a => a !== atm );
+					// this.waitAtmTable = this.waitAtmTable.filter( a => a !== atm );
 					this.atmUITable = this.atmUITable.filter( a => a != atmUI );
 					atmUI.deleteAtm();
 				}
